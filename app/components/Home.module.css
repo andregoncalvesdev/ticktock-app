@@ -1,0 +1,31 @@
+.container {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  height: 100vh;
+  justify-content: center;
+  width: 100%;
+}
+
+.container h2 {
+  font-size: 5rem;
+}
+
+.container a {
+  font-size: 1.4rem;
+}
+
+.form_container {
+  background-color: white;
+  display: block;
+  padding: 50px;
+}
+
+.container .field_group {
+  margin-bottom: 40px;
+}
+
+.container .logo {
+  display: block;
+  margin: 0 auto;
+}
