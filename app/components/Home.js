@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { Router, Route, Link, Navigation } from 'react-router';
 import styles from './Home.module.css';
 import Textfield from 'material-ui/lib/textfield';
 import RaisedButton from 'material-ui/lib/raised-button';
@@ -24,6 +24,11 @@ export default class Home extends Component {
 
     this.onInputChange = this.onInputChange.bind(this);
     this.login = this.login.bind(this);
+    this.redirectTo = this.redirectTo.bind(this);
+  }
+
+  redirectTo(path) {
+    this.transitionTo('/tasks')
   }
 
   login() {
@@ -36,8 +41,10 @@ export default class Home extends Component {
 
     socket.emit('login', loginData);
 
-    socket.on('logged', (tasks) => {
+    socket.on('logged', (tasks, component = this) => {
       console.log(tasks);
+
+      debugger
     });
   }
 
