@@ -12,37 +12,6 @@ const compiler = webpack(config);
 
 const PORT = 3000;
 
-//get Tasks
-var curl = new Curl(),
-url  = 'https://mrticktock.com/app/api/get_tasks',
-data = { //Data to send, inputName : value
-  'email' : 'andre.goncalves@tekzenit.com',
-  'password' : 'Tekgenpt1234'
-};
-
-//You need to build the query string,
-// node has this helper function, but it's limited for real use cases (no support for array values for example)
-data = querystring.stringify( data );
-
-curl.setOpt( Curl.option.URL, url );
-curl.setOpt( Curl.option.POSTFIELDS, data );
-curl.setOpt( Curl.option.HTTPHEADER, ['User-Agent: node-libcurl/1.0'] );
-curl.setOpt( Curl.option.VERBOSE, true );
-
-console.log( querystring.stringify( data ) );
-
-curl.perform();
-
-curl.on( 'end', function( statusCode, body ) {
-
-    console.log( body );
-
-    this.close();
-});
-
-curl.on( 'error', curl.close.bind( curl ) );
-//eogetTasks
-
 app.use(require('webpack-dev-middleware')(compiler, {
   publicPath: config.output.publicPath,
   stats: {
@@ -66,14 +35,41 @@ app.listen(PORT, 'localhost', err => {
 });
 
 //socket io
-const http = require('http');
-const server = http.createServer(app);
-const io = require('socket.io').listen(server);
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
 
 server.listen(3000);
 
-io.sockets.on('connection', function (socket) {
-  socket.on('urEvent', function (data) {
-    socket.emit('cc', 'cenas');
+app.get('/', function (req, res) {
+  res.sendfile(__dirname + '/index.html');
+});
+
+io.on('connection', function (socket) {
+  socket.on('login', function (data) {
+    var curl = new Curl(),
+    url  = 'https://mrticktock.com/app/api/get_tasks',
+    data = { //Data to send, inputName : value
+      'email' : 'andre.goncalves@tekzenit.com',
+      'password' : 'Tekgenpt1234'
+    };
+
+    //You need to build the query string,
+    // node has this helper function, but it's limited for real use cases (no support for array values for example)
+    data = querystring.stringify(data);
+
+    curl.setOpt(Curl.option.URL, url);
+    curl.setOpt(Curl.option.POSTFIELDS, data);
+    curl.setOpt(Curl.option.HTTPHEADER, ['User-Agent: node-libcurl/1.0']);
+    curl.setOpt(Curl.option.VERBOSE, true);
+
+    curl.perform();
+
+    curl.on('end', function(statusCode, tasks) {
+        socket.emit('logged', tasks);
+
+        this.close();
+    });
+
+    curl.on('error', curl.close.bind(curl));
   });
 });

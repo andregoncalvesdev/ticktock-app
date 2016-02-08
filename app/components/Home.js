@@ -21,13 +21,14 @@ export default class Home extends Component {
     };
   }
 
-  test() {
+  login() {
     const socket = io.connect('http://localhost:3000');
 
-    socket.emit('urEvent',(data) => {
-        console.log(data);
-      }
-    );
+    socket.emit('login');
+
+    socket.on('logged', (data) => {
+      console.log(data);
+    });
   }
 
   render() {
@@ -45,7 +46,7 @@ export default class Home extends Component {
             backgroundColor= { this.state.styles.submitButton.background }
             labelColor= { this.state.styles.submitButton.label }
             fullWidth= { this.state.styles.submitButton.fullWidth }
-            onClick={ this.test }
+            onClick={ this.login }
           />
         </div>
       </div>
