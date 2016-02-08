@@ -64,3 +64,16 @@ app.listen(PORT, 'localhost', err => {
 
   console.log(`Listening at http://localhost:${PORT}`);
 });
+
+//socket io
+const http = require('http');
+const server = http.createServer(app);
+const io = require('socket.io').listen(server);
+
+server.listen(3000);
+
+io.sockets.on('connection', function (socket) {
+  socket.on('urEvent', function (data) {
+    socket.emit('cc', 'cenas');
+  });
+});

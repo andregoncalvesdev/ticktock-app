@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import styles from './Home.module.css';
 import Textfield from 'material-ui/lib/textfield';
 import RaisedButton from 'material-ui/lib/raised-button';
+import io from '../utils/socket.io';
 
 export default class Home extends Component {
   constructor(props) {
@@ -20,6 +21,15 @@ export default class Home extends Component {
     };
   }
 
+  test() {
+    const socket = io.connect('http://localhost:3000');
+
+    socket.emit('urEvent',(data) => {
+        console.log(data);
+      }
+    );
+  }
+
   render() {
     return (
       <div className={ styles.container }>
@@ -35,6 +45,7 @@ export default class Home extends Component {
             backgroundColor= { this.state.styles.submitButton.background }
             labelColor= { this.state.styles.submitButton.label }
             fullWidth= { this.state.styles.submitButton.fullWidth }
+            onClick={ this.test }
           />
         </div>
       </div>
