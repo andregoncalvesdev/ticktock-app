@@ -23,25 +23,32 @@ export default class Home extends Component {
     };
 
     this.onInputChange = this.onInputChange.bind(this);
+    this.login = this.login.bind(this);
   }
 
   login() {
     const socket = io.connect('http://localhost:3000');
 
-    socket.emit('login');
+    const email = this.state.email;
+    const password = this.state.password;
 
-    socket.on('logged', (data) => {
-      console.log(data);
+    const loginData = {email, password};
+
+    socket.emit('login', loginData);
+
+    socket.on('logged', (tasks) => {
+      console.log(tasks);
     });
   }
 
   onInputChange(e) {
-    e.stopPropagation()
-
-    if(e.target.attributes.id.value == "email") {
-      this.setState({email: e.target.value})
-    } else {
-      this.setState({password: e.target.value})
+    switch (e.target.attributes.id.value) {
+      case "email":
+        this.setState({email: e.target.value})
+        break;
+      case "password":
+        this.setState({password: e.target.value})
+        break;
     }
   }
 

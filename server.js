@@ -45,20 +45,16 @@ app.get('/', function (req, res) {
 });
 
 io.on('connection', function (socket) {
-  socket.on('login', function (data) {
+  socket.on('login', function (loginData) {
     var curl = new Curl(),
     url  = 'https://mrticktock.com/app/api/get_tasks',
-    data = { //Data to send, inputName : value
-      'email' : 'andre.goncalves@tekzenit.com',
-      'password' : 'Tekgenpt1234'
-    };
 
     //You need to build the query string,
     // node has this helper function, but it's limited for real use cases (no support for array values for example)
-    data = querystring.stringify(data);
+    loginData = querystring.stringify(loginData);
 
     curl.setOpt(Curl.option.URL, url);
-    curl.setOpt(Curl.option.POSTFIELDS, data);
+    curl.setOpt(Curl.option.POSTFIELDS, loginData);
     curl.setOpt(Curl.option.HTTPHEADER, ['User-Agent: node-libcurl/1.0']);
     curl.setOpt(Curl.option.VERBOSE, true);
 
