@@ -10,6 +10,8 @@ export default class Home extends Component {
     super(props);
 
     this.state = {
+      email: '',
+      password: '',
       styles: {
         logoURL: '../images/mrticktock-logo.png',
         submitButton: {
@@ -19,6 +21,8 @@ export default class Home extends Component {
         }
       }
     };
+
+    this.onInputChange = this.onInputChange.bind(this);
   }
 
   login() {
@@ -31,14 +35,24 @@ export default class Home extends Component {
     });
   }
 
+  onInputChange(e) {
+    e.stopPropagation()
+
+    if(e.target.attributes.id.value == "email") {
+      this.setState({email: e.target.value})
+    } else {
+      this.setState({password: e.target.value})
+    }
+  }
+
   render() {
     return (
       <div className={ styles.container }>
         <div className={ styles.form_container }>
           <img className={ styles.logo} src={this.state.styles.logoURL}></img><br />
           <div className={ styles.field_group }>
-            <Textfield label="Default" /><br />
-            <Textfield label="Default" /><br />
+            <Textfield id="email" label="email" onChange={ this.onInputChange }/><br />
+            <Textfield id="password" label="password" onChange={ this.onInputChange }/><br />
           </div>
           <RaisedButton
             label="log in"
