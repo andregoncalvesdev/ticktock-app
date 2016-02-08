@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Router, Route, Link, Navigation } from 'react-router';
+import { Router, Route, Link } from 'react-router';
 import styles from './Home.module.css';
 import Textfield from 'material-ui/lib/textfield';
 import RaisedButton from 'material-ui/lib/raised-button';
