@@ -44,10 +44,15 @@ export default class Home extends Component {
 
     socket.emit('login', loginData);
 
-    socket.on('logged', (tasks, component = this) => {
-      debugger
-      console.log(tasks);
-      component.props.assignTasks(tasks);
+    socket.on('login-response', (response, component = this) => {
+      const responseObj = JSON.parse(response);
+
+      if (responseObj.errors.length) {
+        alert('Dados de login inválidos');
+        return;
+      }
+
+      component.props.assignTasks(responseObj.content);
     });
   }
 

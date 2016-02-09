@@ -49,8 +49,6 @@ io.on('connection', function (socket) {
     var curl = new Curl(),
     url  = 'https://mrticktock.com/app/api/get_tasks',
 
-    //You need to build the query string,
-    // node has this helper function, but it's limited for real use cases (no support for array values for example)
     loginData = querystring.stringify(loginData);
 
     curl.setOpt(Curl.option.URL, url);
@@ -60,10 +58,10 @@ io.on('connection', function (socket) {
 
     curl.perform();
 
-    curl.on('end', function(statusCode, tasks) {
-        socket.emit('logged', tasks);
+    curl.on('end', function(statusCode, response) {
+      socket.emit('login-response', response);
 
-        this.close();
+      this.close();
     });
 
     curl.on('error', curl.close.bind(curl));
