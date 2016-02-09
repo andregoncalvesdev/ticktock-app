@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { assignTasks } from '../actions/index';
 import { Router, Route, Link } from 'react-router';
 import styles from './Home.module.css';
 import Textfield from 'material-ui/lib/textfield';
@@ -42,9 +45,9 @@ export default class Home extends Component {
     socket.emit('login', loginData);
 
     socket.on('logged', (tasks, component = this) => {
-      console.log(tasks);
-
       debugger
+      console.log(tasks);
+      component.props.assignTasks(tasks);
     });
   }
 
@@ -81,3 +84,9 @@ export default class Home extends Component {
     );
   }
 }
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ assignTasks }, dispatch);
+}
+
+export default connect(null, mapDispatchToProps)(Home);
