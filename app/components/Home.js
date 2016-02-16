@@ -2,15 +2,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { assignTasks } from '../actions/index';
-import { Router, Route, Link } from 'react-router';
+import { Router, Route, Link, browserHistory } from 'react-router';
 import styles from './Home.module.css';
 import Textfield from 'material-ui/lib/textfield';
 import RaisedButton from 'material-ui/lib/raised-button';
 import io from '../utils/socket.io';
 
 export default class Home extends Component {
-  constructor(props) {
+  constructor(props, context) {
     super(props);
+    context.router;
 
     this.state = {
       email: '',
@@ -31,7 +32,9 @@ export default class Home extends Component {
   }
 
   redirectTo(path) {
-    this.transitionTo('/tasks')
+    let route = `${path}`;
+
+    this.context.router.push(`/${route}`);
   }
 
   login() {
@@ -53,6 +56,7 @@ export default class Home extends Component {
       }
 
       component.props.assignTasks(responseObj.content);
+      component.redirectTo('tasks');
     });
   }
 
@@ -88,6 +92,10 @@ export default class Home extends Component {
       </div>
     );
   }
+}
+
+Home.contextTypes = {
+  router: React.PropTypes.object.isRequired
 }
 
 function mapDispatchToProps(dispatch) {

@@ -7,6 +7,6 @@ import TasksPage from './containers/TasksPage';
 export default (
   <Route path="/" component={App}>
     <IndexRoute component={HomePage} />
-    <Route path="tasks" component={TasksPage} />
+    <Route path="/tasks" component={TasksPage} />
   </Route>
 );
