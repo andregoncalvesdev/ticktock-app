@@ -75,7 +75,7 @@ export default class Home extends Component {
     return (
       <div className={ styles.container }>
         <div className={ styles.form_container }>
-          <img className={ styles.logo} src={this.state.styles.logoURL}></img><br />
+          <img className={ styles.logo } src={this.state.styles.logoURL}></img><br />
           <div className={ styles.field_group }>
             <Textfield id="email" label="email" onChange={ this.onInputChange }/><br />
             <Textfield id="password" label="password" onChange={ this.onInputChange }/><br />

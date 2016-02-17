@@ -2,36 +2,37 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators} from 'redux';
 import styles from './Tasks.module.css';
+import TaskListItem from './TaskListItem'
 
 export default class Tasks extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      tasks: this.props.tasks
+    };
   }
 
   renderList() {
-   return this.props.tasks.map((task) => {
-     return (
-       <li
-         key={ task.id }>
-         { task.task_name }
-       </li>
-     );
+   return this.state.tasks.map((task) => {
+     return (<TaskListItem task={ task } />);
    });
  }
 
   render() {
     return (
-      <ul className="">
-        { this.renderList() }
-      </ul>
+      <section>
+        <article>
+          <ul className="tasks-list">
+            { this.renderList() }
+          </ul>
+        </article>
+      </section>
     );
   }
 }
 
 function mapStateToProps(state) {
-  console.log(state);
   return {
     tasks: state.tasks[0]
   };
