@@ -23,7 +23,7 @@ export default class Tasks extends Component {
     return (
       <section>
         <article>
-          <ul className="tasks-list">
+          <ul className={ styles.tasks_list }>
             { this.renderList() }
           </ul>
         </article>

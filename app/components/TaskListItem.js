@@ -9,17 +9,43 @@ export default class TaskListItem extends Component {
 
     this.state = {
       task: this.props.task,
-      button: 'paused'
+      playButtonState: 'paused',
+      playButtonStyles: {
+        left: styles.left,
+        right: styles.right,
+        triangle_1: styles.triangle_1,
+        triangle_2: styles.triangle_2
+      }
     };
 
-    this.handleToggleTask = this.handleToggleTask.bind(this);
+    this.handlePlayButton = this.handlePlayButton.bind(this);
   }
 
-  handleToggleTask() {
-    if (this.state.button === 'paused'){
-      this.setState({button: ''});
+  handlePlayButton() {
+    if (this.state.playButtonState === 'paused'){
+      this.setState(
+        {
+          playButtonState: 'playing',
+          playButtonStyles: {
+            left: styles.paused_left,
+            right: styles.paused_right,
+            triangle_1: styles.paused_triangle_1,
+            triangle_2: styles.paused_triangle_2
+          }
+        }
+      );
     } else {
-      this.setState({button: 'paused'});
+      this.setState(
+        {
+          playButtonState: 'paused',
+          playButtonStyles: {
+            left: styles.left,
+            right: styles.right,
+            triangle_1: styles.triangle_1,
+            triangle_2: styles.triangle_2
+          }
+        }
+      );
     }
   };
 
@@ -28,11 +54,11 @@ export default class TaskListItem extends Component {
       <li
         key={ this.state.task.id }>
         <div className={ styles.toggle_task }>
-         <a className={ styles.play_button + ' ' + this.state.button } onClick={ this.handleToggleTask }>
-          <div className={ styles.left }></div>
-          <div className={ styles.right }></div>
-          <div className={ styles.triangle_1 }></div>
-          <div className={ styles.triangle_2 }></div>
+         <a className={ styles.play_button } onClick={ this.handlePlayButton }>
+          <div className={ this.state.playButtonStyles.left }></div>
+          <div className={ this.state.playButtonStyles.right }></div>
+          <div className={ this.state.playButtonStyles.triangle_1 }></div>
+          <div className={ this.state.playButtonStyles.triangle_2 }></div>
          </a>
         </div>
         <div className={ styles.task_info }>

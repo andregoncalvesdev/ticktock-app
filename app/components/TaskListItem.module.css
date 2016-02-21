@@ -27,13 +27,13 @@ li {
 }
 
 .play_button {
-  height: 300px;
-  width: 300px;
+  height: 50px;
+  width: 50px;
   display: block;
-  margin: 60px auto;
   overflow: hidden;
   position: relative;
 }
+
 .left {
   height: 100%;
   float: left;
@@ -59,9 +59,9 @@ li {
   background-color: transparent;
   width: 0;
   height: 0;
-  border-right: 300px solid #c0392b;
-  border-top: 150px solid transparent;
-  border-bottom: 150px solid transparent;
+  border-right: 50px solid #0F5A8A;
+  border-top: 25px solid transparent;
+  border-bottom: 25px solid transparent;
   -webkit-transition: -webkit-transform 0.25s ease;
   transition: -webkit-transform 0.25s ease;
   transition: transform 0.25s ease;
@@ -75,17 +75,22 @@ li {
   -webkit-transition: all 0.25s ease;
   transition: all 0.25s ease;
 }
-.paused .left {
+
+.paused_left {
+  composes: left;
   width: 50%;
 }
-.paused .right {
+.paused_right {
+  composes: right;
   width: 50%;
 }
-.paused .triangle_1 {
+.paused_triangle_1 {
+  composes: triangle_1;
   -webkit-transform: translate(0, -50%);
           transform: translate(0, -50%);
 }
-.paused .triangle_2 {
+.paused_triangle_2 {
+  composes: triangle_2;
   -webkit-transform: translate(0, 50%);
           transform: translate(0, 50%);
 }
