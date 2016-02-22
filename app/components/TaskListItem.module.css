@@ -1,6 +1,11 @@
 li {
   display: flex;
   border-top: 1px solid white;
+  padding: 30px 0;
+}
+
+li:first-child {
+  border-top: 0;
 }
 
 .toggle_task {
@@ -11,7 +16,7 @@ li {
 }
 
 .task_info {
-  flex: 0 1 auto;
+  flex: 1 1 auto;
 }
 
 .task_name {

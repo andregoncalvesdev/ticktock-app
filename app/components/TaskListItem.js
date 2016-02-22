@@ -21,6 +21,7 @@ export default class TaskListItem extends Component {
 
     this.handlePlayButton = this.handlePlayButton.bind(this);
     this.startTimer = this.startTimer.bind(this);
+    this.stopTimer = this.stopTimer.bind(this);
   }
 
   startTimer() {
@@ -38,7 +39,30 @@ export default class TaskListItem extends Component {
       const responseObj = JSON.parse(response);
 
       if (responseObj.errors.length) {
-        alert('Dados de login inválidos');
+        alert('Houve um erro. Tente novamente.');
+        return false;
+      }
+
+      return true;
+    });
+  }
+
+  stopTimer() {
+    const socket = io.connect('http://localhost:3000');
+
+    const email = this.props.login.email;
+    const password = this.props.login.password;
+    const task_id = this.props.task.id;
+
+    const fetchData = {email, password, task_id};
+
+    socket.emit('stop-timer', fetchData);
+
+    socket.on('stop-timer-response', (response, component = this) => {
+      const responseObj = JSON.parse(response);
+
+      if (responseObj.errors.length) {
+        alert('Houve um erro. Tente novamente.');
         return false;
       }
 
@@ -47,9 +71,9 @@ export default class TaskListItem extends Component {
   }
 
   handlePlayButton() {
-    const hasStarted = this.startTimer();
+    const hasPlayed = this.startTimer();
 
-    if (hasStarted == false) {
+    if (hasPlayed == false) {
       return;
     }
 
@@ -66,6 +90,12 @@ export default class TaskListItem extends Component {
         }
       );
     } else {
+      const hasPaused = this.stopTimer();
+
+      if (hasPaused == false) {
+        return;
+      }
+
       this.setState(
         {
           playButtonState: 'paused',
