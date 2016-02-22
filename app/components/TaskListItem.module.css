@@ -76,20 +76,20 @@ li {
   transition: all 0.25s ease;
 }
 
-.bar_left {
+.paused_left {
   composes: left;
   width: 50%;
 }
-.bar_right {
+.paused_right {
   composes: right;
   width: 50%;
 }
-.bar_triangle_1 {
+.paused_triangle_1 {
   composes: triangle_1;
   -webkit-transform: translate(0, -50%);
           transform: translate(0, -50%);
 }
-.bar_triangle_2 {
+.paused_triangle_2 {
   composes: triangle_2;
   -webkit-transform: translate(0, 50%);
           transform: translate(0, 50%);

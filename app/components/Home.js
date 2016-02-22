@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { assignTasks } from '../actions/index';
+import { assignTasks, storeLogin } from '../actions/index';
 import { Router, Route, Link, browserHistory } from 'react-router';
 import styles from './Home.module.css';
 import Textfield from 'material-ui/lib/textfield';
@@ -56,6 +56,7 @@ export default class Home extends Component {
       }
 
       component.props.assignTasks(responseObj.content);
+      component.props.storeLogin(loginData);
       component.redirectTo('tasks');
     });
   }
@@ -78,7 +79,7 @@ export default class Home extends Component {
           <img className={ styles.logo } src={this.state.styles.logoURL}></img><br />
           <div className={ styles.field_group }>
             <Textfield id="email" label="email" onChange={ this.onInputChange }/><br />
-            <Textfield id="password" label="password" onChange={ this.onInputChange }/><br />
+            <Textfield id="password" label="password" type="password" onChange={ this.onInputChange }/><br />
           </div>
           <RaisedButton
             label="log in"
@@ -99,7 +100,7 @@ Home.contextTypes = {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ assignTasks }, dispatch);
+  return bindActionCreators({ assignTasks, storeLogin }, dispatch);
 }
 
 export default connect(null, mapDispatchToProps)(Home);

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators} from 'redux';
 import styles from './TaskListItem.module.css';
+import io from '../utils/socket.io';
 
 export default class TaskListItem extends Component {
   constructor(props) {
@@ -11,26 +12,56 @@ export default class TaskListItem extends Component {
       task: this.props.task,
       playButtonState: 'paused',
       playButtonStyles: {
-        left: styles.bar_left,
-        right: styles.bar_right,
-        triangle_1: styles.bar_triangle_1,
-        triangle_2: styles.bar_triangle_2
+        left: styles.paused_left,
+        right: styles.paused_right,
+        triangle_1: styles.paused_triangle_1,
+        triangle_2: styles.paused_triangle_2
       }
     };
 
     this.handlePlayButton = this.handlePlayButton.bind(this);
+    this.startTimer = this.startTimer.bind(this);
+  }
+
+  startTimer() {
+    const socket = io.connect('http://localhost:3000');
+
+    const email = this.props.login.email;
+    const password = this.props.login.password;
+    const task_id = this.props.task.id;
+
+    const fetchData = {email, password, task_id};
+
+    socket.emit('start-timer', fetchData);
+
+    socket.on('start-timer-response', (response, component = this) => {
+      const responseObj = JSON.parse(response);
+
+      if (responseObj.errors.length) {
+        alert('Dados de login inválidos');
+        return false;
+      }
+
+      return true;
+    });
   }
 
   handlePlayButton() {
-    if (this.state.playButtonState === 'paused'){
+    const hasStarted = this.startTimer();
+
+    if (hasStarted == false) {
+      return;
+    }
+
+    if (this.state.playButtonState === 'paused') {
       this.setState(
         {
           playButtonState: 'playing',
           playButtonStyles: {
-            left: styles.bar_left,
-            right: styles.bar_right,
-            triangle_1: styles.bar_triangle_1,
-            triangle_2: styles.bar_triangle_2
+            left: styles.left,
+            right: styles.right,
+            triangle_1: styles.triangle_1,
+            triangle_2: styles.triangle_2
           }
         }
       );
@@ -39,10 +70,10 @@ export default class TaskListItem extends Component {
         {
           playButtonState: 'paused',
           playButtonStyles: {
-            left: styles.left,
-            right: styles.right,
-            triangle_1: styles.triangle_1,
-            triangle_2: styles.triangle_2
+            left: styles.paused_left,
+            right: styles.paused_right,
+            triangle_1: styles.paused_triangle_1,
+            triangle_2: styles.paused_triangle_2
           }
         }
       );
@@ -70,3 +101,11 @@ export default class TaskListItem extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    login: state.login[0]
+  };
+}
+
+export default connect(mapStateToProps)(TaskListItem);

@@ -66,4 +66,26 @@ io.on('connection', function (socket) {
 
     curl.on('error', curl.close.bind(curl));
   });
+
+  socket.on('start-timer', function(fetchData){
+    var curl = new Curl(),
+    url  = 'https://mrticktock.com/app/api/start_timer',
+
+    fetchData = querystring.stringify(fetchData);
+
+    curl.setOpt(Curl.option.URL, url);
+    curl.setOpt(Curl.option.POSTFIELDS, fetchData);
+    curl.setOpt(Curl.option.HTTPHEADER, ['User-Agent: node-libcurl/1.0']);
+    curl.setOpt(Curl.option.VERBOSE, true);
+
+    curl.perform();
+
+    curl.on('end', function(statusCode, response) {
+      socket.emit('start-timer-response', response);
+
+      this.close();
+    });
+
+    curl.on('error', curl.close.bind(curl));
+  });
 });
