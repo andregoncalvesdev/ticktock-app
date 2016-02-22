@@ -11,10 +11,10 @@ export default class TaskListItem extends Component {
       task: this.props.task,
       playButtonState: 'paused',
       playButtonStyles: {
-        left: styles.left,
-        right: styles.right,
-        triangle_1: styles.triangle_1,
-        triangle_2: styles.triangle_2
+        left: styles.bar_left,
+        right: styles.bar_right,
+        triangle_1: styles.bar_triangle_1,
+        triangle_2: styles.bar_triangle_2
       }
     };
 
@@ -27,10 +27,10 @@ export default class TaskListItem extends Component {
         {
           playButtonState: 'playing',
           playButtonStyles: {
-            left: styles.paused_left,
-            right: styles.paused_right,
-            triangle_1: styles.paused_triangle_1,
-            triangle_2: styles.paused_triangle_2
+            left: styles.bar_left,
+            right: styles.bar_right,
+            triangle_1: styles.bar_triangle_1,
+            triangle_2: styles.bar_triangle_2
           }
         }
       );
